@@ -1,0 +1,23 @@
+
+  {% extends "uploads/base.html" %}
+
+  {% block content %}
+  
+      <h1>Image Segmentation</h1>
+  
+      <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+         {{ form.as_p }}
+        <button type="submit">Upload</button>
+        <br>
+        <br>
+        {% if img_obj %}
+
+      {% endif %}
+      </form>
+      <div class="container_image">
+        <img class="imagem" src="{{ img_obj.image.url}}">
+        <img class="imagem" src="{{ img_obj.image.url}}">
+      </div>
+  
+      {% endblock %}  
