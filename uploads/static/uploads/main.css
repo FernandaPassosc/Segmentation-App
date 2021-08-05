@@ -1,3 +1,7 @@
+@import url('https://fonts.googleapis.com/css?family=Mukta');
+
+:root{}
+
 body {
     background: #fafafa;
     color: #333333;
@@ -72,7 +76,7 @@ body {
     vertical-align: middle;
   }
   
-  .account-img {
+  myImage {
     height: 125px;
     width: 125px;
     margin-right: 20px;
@@ -83,8 +87,92 @@ body {
     font-size: 2.5rem;
   }
 
-  .imagem{
-    width:250px;
+
+  .file .account-imageInput {
+    max-width:200px;
+    max-height:150px;
+    width: auto;
+    height: auto;
   }
 
-  
+  .tools{
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+
+  }
+
+  .tools .color-field{
+    height: 40px;
+    width: 40px;
+    min-height: 40px;
+    min-width: 40px;
+    cursor: pointer; 
+    display: inline-block;
+    cursor: pointer; 
+    box-sizing: border-box;
+    border-radius: 50%;
+    border: 2px solid white;
+    align-self: center;
+    margin: 0 10px;
+  }
+
+
+  div.fixed {
+    position: fixed;
+    bottom: 110;
+    right: 500;
+    width: 300px;
+    border: 3px solid #73AD21;
+  }
+
+
+  .button{
+    align-self: center;
+    width: 100px;
+    height: 40px;
+    border: 2px solid white;
+    cursor: pointer; 
+    color: white;
+    background: #222;
+    font-weight: bold;
+    margin: 0 15px;
+  } 
+
+  #canvas{
+    position: absolute;
+    left: 200px;
+    border: 1px solid black;
+    cursor: pointer;
+  }
+
+
+  #canvas2{
+    border: 1px solid black;
+    cursor: pointer;
+    position: relative;
+    left: 50%;
+    top: 10%;
+  }
+
+
+
+  .pen-range{
+    position: absolute;
+    left: 70%;
+    top: 40%;
+    /* align-self: center; */
+    margin: 0 15px;
+  } 
+
+
+  .stroke-color {
+    border-radius: 1%;
+    width: 30px;
+    height: 30px;
+  }
+
+
+ .field{ 
+  width: 100%;
+}

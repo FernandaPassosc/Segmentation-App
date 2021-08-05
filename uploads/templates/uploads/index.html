@@ -1,23 +1,73 @@
-
-  {% extends "uploads/base.html" %}
-
+ {% extends "uploads/base.html" %}
+ {% load crispy_forms_tags %}
   {% block content %}
   
-      <h1>Image Segmentation</h1>
   
-      <form method="post" enctype="multipart/form-data">
-        {% csrf_token %}
-         {{ form.as_p }}
-        <button type="submit">Upload</button>
-        <br>
-        <br>
-        {% if img_obj %}
+      <h1>Image Segmentation</h1> 
+        
+        <body> 
 
-      {% endif %}
-      </form>
-      <div class="container_image">
-        <img class="imagem" src="{{ img_obj.image.url}}">
-        <img class="imagem" src="{{ img_obj.image.url}}">
-      </div>
-  
-      {% endblock %}  
+
+            <div class="field">
+
+              <canvas id= "canvas"></canvas>
+              <canvas id= "canvas2"></canvas> 
+                  
+
+              <div onclick="change_color(this)" style="background:red" class="stroke-color"></div>
+              <div onclick="change_color(this)" style="background:green" class="stroke-color"></div>
+                
+              <button onclick="Restore()">Undo</button>
+              <button onclick="Clear()">Clear</button>
+              
+                            
+              <input type="range" min="1" max="50" oninput="stroke_width = this.value">
+             
+
+              <input type="file" id="inp"> 
+              <input type="button" value="Resize Image" onclick="resizeImage()"/> 
+
+
+
+              {% comment %} <input type="file" id="imageInput" accept = "image/*"> 
+              <button type="submit" >upload</button>  {% endcomment %}
+            
+              
+            </div>
+
+        
+          </body>  
+            
+         {% comment %} <script src="main.js"></script> 
+         <script>
+              var myImage;
+              var myImageClone;
+              let imgInput = document.getElementById('imageInput');
+              imgInput.addEventListener('change', function(e) {
+                if(e.target.files) {
+                  let imageFile = e.target.files[0]; //here we get the image file
+                  var reader = new FileReader();
+                  reader.readAsDataURL(imageFile);
+                  reader.onloadend = function (e) {
+                    myImage = new Image();
+                    //var myImage = new Image(); // Creates image object 
+                    myImage.src = e.target.result; // Assigns converted image to image object
+                    myImageClone = myImage
+                    myImage.onload = function(ev) {
+                      var canvas = document.getElementById("canvas"); // Creates a canvas object
+                      var myContext = canvas.getContext("2d"); // Creates a contect object
+
+                      myContext.drawImage(myImage,0,0); // Draws the image on canvas
+                      
+                      let imgData = canvas.toDataURL("image/jpeg",0.75); // Assigns image base64 string in jpeg format to a variable
+                    }
+                    
+                  }
+                }
+              }); 
+            </script>    {% endcomment %}
+
+
+
+
+    {%endblock%}
