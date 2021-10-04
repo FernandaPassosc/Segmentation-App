@@ -1,105 +1,14 @@
 
-// let canvas = document.getElementById("canvas");
-// canvas.width = window.innerWidth - 60;
-// canvas.height = window.innerHeight * 0.6;
-// let context = canvas.getContext("2d");
-// context.fillStyle = "white";
-// context.fillRect(0, 0, canvas.width, canvas.height);
-
-
-// const alertBox = document.getElementById('alert-box')
-// const imgBox = document.getElementById('img-box')
-// const form = document.getElementById('p-form')
-
-
-
-// const image = document.getElementById('id_image')
-
-// var img = document.createElement("img");
-// img.src = "media/dog-static.jpg";
-
-// var src = document.getElementById("x");
-
-// imgBox.innerHTML = `<img src="media/dog-static.jpg" width ="500" height="500">`
-// src.innerHTML = `<img src="media/dog-static.jpg" width ="500" height="500">`
-
-// const btnBox = document.getElementById('btn-box')
-// const btns = [...btnBox.children]
-
-// console.log(btnBox.children)
-// const url = ""
-
-// const csrf = document.getElementsByName('csrfmiddlewaretoken') 
-// console.log(csrf)
-
-
-// const handleAlerts = (type, text) =>{
-//   alertBox.innerHTML = `<div class="alert alert-${type}" role="alert">
-//                           ${text}
-//                       </div>`
-// }
-
-
-// image.addEventListener('change', ()=>{
-//     const img_data = image.files[0]
-//     const url = URL.createObjectURL(img_data)
-//     console.log(url)
-
-//     imgBox.innerHTML = `<img src="${url}" width ="500" height="500">`
-//     src.innerHTML = `<img src="${url}" width ="500" height="500">`
-
-// })
-
-// let filter = null
-
-// btns.forEach(btn=>btn.addEventListener('click', ()=>{
-//   filter = btn.getAttribute('data-filter')
-//   console.log(filter)
-
-// }))
-
-// // saving the image
-// let id = null
-
-// form.addEventListener('submit', e=>{
-
-//   e.preventDefault() // para não atualizar a página
-
-//     const fd = new FormData()
-//     //const fd2 = new FormData()
-//     fd.append('csrfmiddlewaretoken', csrf[0].value)
-//     fd.append('image', image.files[0])
-//     fd.append('action', filter)
-//     fd.append('id', id)
-
-//     $.ajax({
-//         type: 'POST',
-
-//         url: url,
-//         enctype: 'multipart/form-data',
-//         data: fd, 
-
-//         success: function(response){
-//             const data = JSON.parse(response.data)
-//             console.log(data)
-//             console.log("taaa")
-//         },
-
-//         cache: false,
-//         contentType: false,
-//         processData: false,
-//    });
-// })
-// console.log(form)
-
-
-
 let img = document.getElementById('inp');
 let canvas = document.getElementById("canvas");
 let context = canvas.getContext("2d");
 
 let canvas2 = document.getElementById("canvas2");
 let context2 = canvas2.getContext("2d");
+
+const form = document.getElementById('p-form')
+
+const csrf = document.getElementsByName('csrfmiddlewaretoken')
 
 
 canvas.width = 700;
@@ -129,28 +38,27 @@ canvas.addEventListener("mouseup", stop, false);
 canvas.addEventListener("mouseout", stop, false);
 
 
+
 var base_image = new Image();
+var image_upload = new Image();
 make_base();
 
 
 function make_base(){
   base_image.src = 'media/dog-static.jpg';
-
+  
   base_image.onload = function(){
     context.drawImage(base_image, 0, 0);
     context2.drawImage(base_image, 0, 0);
   }
+
 }
 
+let id =null
+
 document.getElementById('inp').onchange = function inp (e) {
-  console.log("imagem", e);
-  
 
   base_image.src = URL.createObjectURL(this.files[0]);
-  console.log(base_image);
-  console.log(base_image.width);
-  console.log(base_image);
-
 
   base_image.onload = function(){
     var width = base_image.width;
@@ -158,27 +66,53 @@ document.getElementById('inp').onchange = function inp (e) {
     context.drawImage(base_image, 0, 0, width, height, 0, 0, 700, 600 );
     context2.drawImage(base_image, 0, 0, width, height, 0, 0, 700, 600 );
   }
+
+
+    
+};
+
+const url =""
+
+form.addEventListener('submit', e=>{
+  e.preventDefault()
+
+  const fd = new FormData()
+  fd.append('csrfmiddlewaretoken', csrf[0].value)
+  //fd.append('name', name.value)
+  //fd.append('description', description.value)
+  fd.append('image', img.files[0])
+
+  $.ajax({
+      type: 'POST',
+      url: url,
+      enctype: 'multipart/form-data',
+      data: fd,
+      success: function(response){
+          console.log(response)
+          const sText = `successfully saved ${response.name}`
+          // handleAlerts('success', sText)
+          // setTimeout(()=>{
+          //     alertBox.innerHTML = ""
+          //     imgBox.innerHTML = ""
+          //     name.value = ""
+          //     description.value = ""
+          //     image.value = ""
+          // }, 3000)
+      },
+      error: function(error){
+          console.log(error)
+          //handleAlerts('danger', 'ups..something went wrong')
+      },
+      cache: false,
+      contentType: false,
+      processData: false,
+  })
+})
+
   
-}
-
-
-
-// document.getElementById('inp').onchange = function inp (e) {
-//   console.log("imagem", e);
-
-//   base_image.src = URL.createObjectURL(this.files[0]);
-  
-//   canvas = resize2Canvas(base_image, 700, 600);
-//   var data = resize(canvas, 700, 600, 'png');
-
-//   var new_img = new Image();
-//   new_img.src = data;
-
-//   context.drawImage(new_img, 0, 0);
- 
-  
-// }
-
+  // $(function() {
+  //     $('form').submit(upload);
+  // });
 
 function change_color(element) {
   stroke_color = element.style.background;
@@ -190,6 +124,7 @@ function change_width(element) {
 
 function start(event) {
   is_drawing = true;
+
   context.beginPath();
   context.moveTo(getX(event), getY(event));
 
@@ -207,7 +142,6 @@ function draw(event) {
     context.lineCap = "round";
     context.lineJoin = "round";
     context.stroke();
-
   
     context2.lineTo(getX(event), getY(event));
     context2.strokeStyle = stroke_color;
@@ -215,7 +149,6 @@ function draw(event) {
     context2.lineCap = "round";
     context2.lineJoin = "round";
     context2.stroke();
-
   }
   event.preventDefault();
 }
@@ -256,8 +189,41 @@ function Restore() {
   }
 }
 
+
+// // saving the image
+// let id = null
+
+// form.addEventListener('submit', e=>{
+//   e.preventDefault()
+//   const fd = new FormData()
+//   fd.append('csrfmiddlewaretoken', csrf[0].value)
+//   fd.append('action', ACTION_CHOICES)
+//   fd.append('id',id)
+//   fd.append('inp', inp.files[0])
+  
+//   $.ajax({
+//       type: 'POST',
+//       url: url,
+//       enctype: 'multipart/form-data',
+//       data: fd,
+//       success: function(response){
+//           console.log(response)
+//           console.log("rolou")
+//           const sText = `successfully saved ${response.name}`
+//           handleAlerts('success', sText)
+//       },
+//       error: function(error){
+//           console.log(error)
+//           handleAlerts('danger', 'ups..something went wrong')
+//       },
+//       cache: false,
+//       contentType: false,
+//       processData: false,
+//   })
+// })
+
 function Clear() {
-
-    make_base()
-
+    make_base();
 }
+
+

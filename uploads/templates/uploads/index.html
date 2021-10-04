@@ -7,7 +7,6 @@
         
         <body> 
 
-
             <div class="field">
 
               <canvas id= "canvas"></canvas>
@@ -20,54 +19,26 @@
               <button onclick="Restore()">Undo</button>
               <button onclick="Clear()">Clear</button>
               
+              
+                {% comment %} <form method="POST"  enctype="multipart/form-data" id="imageForm"> {% endcomment %}
+                <form method="POST" id="p-form">
+                  {% csrf_token %}
+                
+                  <input type="file" id="inp"> 
+                  <button type="submit">send</button>
+                </form>
+              {% comment %} <form method= "POST">
+                {% csrf_token %}
+                <input type="file" id="inp"> 
+                <button type="submit">send</button>
+              </form>  {% endcomment %}
                             
               <input type="range" min="1" max="50" oninput="stroke_width = this.value">
              
 
-              <input type="file" id="inp"> 
-              <input type="button" value="Resize Image" onclick="resizeImage()"/> 
-
-
-
-              {% comment %} <input type="file" id="imageInput" accept = "image/*"> 
-              <button type="submit" >upload</button>  {% endcomment %}
-            
-              
             </div>
 
         
           </body>  
             
-         {% comment %} <script src="main.js"></script> 
-         <script>
-              var myImage;
-              var myImageClone;
-              let imgInput = document.getElementById('imageInput');
-              imgInput.addEventListener('change', function(e) {
-                if(e.target.files) {
-                  let imageFile = e.target.files[0]; //here we get the image file
-                  var reader = new FileReader();
-                  reader.readAsDataURL(imageFile);
-                  reader.onloadend = function (e) {
-                    myImage = new Image();
-                    //var myImage = new Image(); // Creates image object 
-                    myImage.src = e.target.result; // Assigns converted image to image object
-                    myImageClone = myImage
-                    myImage.onload = function(ev) {
-                      var canvas = document.getElementById("canvas"); // Creates a canvas object
-                      var myContext = canvas.getContext("2d"); // Creates a contect object
-
-                      myContext.drawImage(myImage,0,0); // Draws the image on canvas
-                      
-                      let imgData = canvas.toDataURL("image/jpeg",0.75); // Assigns image base64 string in jpeg format to a variable
-                    }
-                    
-                  }
-                }
-              }); 
-            </script>    {% endcomment %}
-
-
-
-
     {%endblock%}
