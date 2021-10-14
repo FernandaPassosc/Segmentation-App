@@ -66,21 +66,27 @@ document.getElementById('inp').onchange = function inp (e) {
     context.drawImage(base_image, 0, 0, width, height, 0, 0, 700, 600 );
     context2.drawImage(base_image, 0, 0, width, height, 0, 0, 700, 600 );
   }
-
-
-    
 };
 
+const mediaURL = window.location.href + 'media/'
+console.log(mediaURL)
 const url =""
+let filter = form.getAttribute('data-filter')
+let botao = document.getElementById('botao');
 
 form.addEventListener('submit', e=>{
   e.preventDefault()
+  
+  // console.log(filter)
+  // console.log('jbckdsjsbc')
 
   const fd = new FormData()
   fd.append('csrfmiddlewaretoken', csrf[0].value)
   //fd.append('name', name.value)
   //fd.append('description', description.value)
   fd.append('image', img.files[0])
+  fd.append('action', filter)
+  fd.append('id', id)
 
   $.ajax({
       type: 'POST',
@@ -88,8 +94,21 @@ form.addEventListener('submit', e=>{
       enctype: 'multipart/form-data',
       data: fd,
       success: function(response){
-          console.log(response)
-          const sText = `successfully saved ${response.name}`
+          const data = JSON.parse(response.data)
+          console.log(data)
+          
+          
+
+
+          base_image.src = mediaURL + data[0].fields.image
+
+          base_image.onload = function(){
+            var width = base_image.width;
+            var height = base_image.height;
+            context.drawImage(base_image, 0, 0, width, height, 0, 0, 700, 600 );
+            context2.drawImage(base_image, 0, 0, width, height, 0, 0, 700, 600 );
+        }
+         // const sText = `successfully saved ${response.name}`
           // handleAlerts('success', sText)
           // setTimeout(()=>{
           //     alertBox.innerHTML = ""
@@ -101,7 +120,6 @@ form.addEventListener('submit', e=>{
       },
       error: function(error){
           console.log(error)
-          //handleAlerts('danger', 'ups..something went wrong')
       },
       cache: false,
       contentType: false,

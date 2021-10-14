@@ -17,20 +17,21 @@ def image_upload_view(request):
 
 
     if request.is_ajax():
-        # pic_id = json.loads(request.POST.get('id'))
+        pic_id = json.loads(request.POST.get('id'))
 
-        # action = request.POST.get('action')
-
+        action = request.POST.get('action')
+        
         if form.is_valid():
-            form.save()
+            obj = form.save(commit=False)
         
-        # else:
-        #     obj = Image.objects.get(id=pic_id)
+        else:
+            obj = Image.objects.get(id=pic_id)
         
-        # obj.action = action
-        # obj.save()
-        # data = serializers.serialize('json', [obj])
-        # return JsonResponse({'data': data})
+        
+        obj.action = action
+        obj.save()
+        data = serializers.serialize('json', [obj])
+        return JsonResponse({'data': data})
 
     context = {
         'form': form,

@@ -25,7 +25,8 @@ import cv2
 def get_filtered_image(image, action):
     img = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
     filtered = None
-    if action == 'NO_FILTER':
+    
+    if action == None:
         filtered = image
     elif action == 'COLOR_DISTANCE':
         print("yay colorized!")
